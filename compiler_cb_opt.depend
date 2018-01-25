@@ -1,0 +1,76 @@
+# depslib dependency file v1.0
+1515866836 source:c:\users\administrator\desktop\compiler_cb_opt\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"error.h"
+	"symbol0.h"
+	"genmid.h"
+	"optim.h"
+	"mips.h"
+	"grammer.h"
+
+1514779168 c:\users\administrator\desktop\compiler_cb_opt\error.h
+
+1514784490 c:\users\administrator\desktop\compiler_cb_opt\symbol0.h
+
+1515866875 c:\users\administrator\desktop\compiler_cb_opt\genmid.h
+
+1515849140 c:\users\administrator\desktop\compiler_cb_opt\optim.h
+
+1515820430 c:\users\administrator\desktop\compiler_cb_opt\mips.h
+	"optim.h"
+
+1515853172 c:\users\administrator\desktop\compiler_cb_opt\grammer.h
+
+1515866836 source:c:\users\noble6emc2\desktop\15061052_胡敏达__申优 4\源代码\compiler_cb_opt\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"error.h"
+	"symbol0.h"
+	"genmid.h"
+	"optim.h"
+	"mips.h"
+	"grammer.h"
+
+1514779168 c:\users\noble6emc2\desktop\15061052_胡敏达__申优 4\源代码\compiler_cb_opt\error.h
+
+1514784490 c:\users\noble6emc2\desktop\15061052_胡敏达__申优 4\源代码\compiler_cb_opt\symbol0.h
+
+1515866876 c:\users\noble6emc2\desktop\15061052_胡敏达__申优 4\源代码\compiler_cb_opt\genmid.h
+
+1515918225 c:\users\noble6emc2\desktop\15061052_胡敏达__申优 4\源代码\compiler_cb_opt\optim.h
+
+1515820430 c:\users\noble6emc2\desktop\15061052_胡敏达__申优 4\源代码\compiler_cb_opt\mips.h
+	"optim.h"
+
+1515853172 c:\users\noble6emc2\desktop\15061052_胡敏达__申优 4\源代码\compiler_cb_opt\grammer.h
+
+1515866836 source:c:\users\noble6emc2\desktop\compiler_cb_opt_2\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"error.h"
+	"symbol0.h"
+	"genmid.h"
+	"optim.h"
+	"mips.h"
+	"grammer.h"
+
+1514779168 c:\users\noble6emc2\desktop\compiler_cb_opt_2\error.h
+
+1515996422 c:\users\noble6emc2\desktop\compiler_cb_opt_2\symbol0.h
+
+1515866876 c:\users\noble6emc2\desktop\compiler_cb_opt_2\genmid.h
+
+1515918225 c:\users\noble6emc2\desktop\compiler_cb_opt_2\optim.h
+
+1515820430 c:\users\noble6emc2\desktop\compiler_cb_opt_2\mips.h
+	"optim.h"
+
+1515853172 c:\users\noble6emc2\desktop\compiler_cb_opt_2\grammer.h
+

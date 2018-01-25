@@ -1,0 +1,517 @@
+.data
+	String0: .asciiz "OVERFLOW! " 
+	String1: .asciiz "complete number: " 
+	String2: .asciiz "  " 
+	String3: .asciiz "---------------------------------------------------------------\\n" 
+	String4: .asciiz " " 
+	String5: .asciiz "The total is " 
+.text
+.globl main
+li $t0 1024
+sw $t0 2147479548
+
+sw $sp -72($sp)
+subi $sp $sp 4
+jal main
+
+j mainend
+
+
+complete_num:
+
+sw $ra -64($sp)
+
+
+li $21 2
+
+lab0:
+
+li $11 1
+
+sub $11 $0 $11
+
+ori $20 $11 0
+
+
+ori $19 $21 0
+
+
+li $23 1
+
+lab1:
+
+ori $11 $21 0
+
+div $11 $23
+mflo $11
+
+mult $11 $23
+mflo $11
+
+ori $12 $11 0
+
+ori $13 $12 0
+
+ori $14 $21 0
+
+bne $13 $14 endlab0
+
+ori $11 $20 0
+
+li $12 1
+
+add $11 $11 $12
+
+ori $20 $11 0
+
+ori $13 $19 0
+
+ori $14 $23 0
+
+sub $13 $13 $14
+
+ori $19 $13 0
+
+ori $15 $20 0
+
+li $16 1024
+
+sub $t0 $15 $16
+bltz $t0 endlab1
+
+la $a0 String0
+li $v0 4
+syscall
+
+endlab1:
+
+ori $11 $20 0
+
+li $12 1024
+
+sub $t0 $11 $12
+bgez $t0 endlab2
+
+ori $11 $20 0
+
+ori $12 $23 0
+
+li $t0 -72
+add $t0 $t0 $sp
+ori $t1 $11 0
+sll $t1 $t1 2
+sub $t0 $t0 $t1
+sw $12 0($t0)
+
+endlab2:
+
+endlab0:
+
+ori $11 $23 0
+
+li $12 1
+
+add $11 $11 $12
+
+ori $23 $11 0
+
+ori $13 $23 0
+
+ori $14 $21 0
+
+sub $t0 $13 $14
+bltz $t0 lab1
+
+ori $11 $19 0
+
+li $12 0
+
+bne $11 $12 endlab3
+
+la $a0 String1
+li $v0 4
+syscall
+
+ori $11 $21 0
+
+li $v0 1
+ori $a0 $11 0
+syscall
+
+
+li $23 0
+
+lab2:
+
+la $a0 String2
+li $v0 4
+syscall
+
+ori $11 $23 0
+
+li $t0 -72
+add $t0 $t0 $sp
+ori $t1 $11 0
+sll $t1 $t1 2
+sub $t0 $t0 $t1
+lw $t1 0($t0)
+ori $12 $t1 0
+
+li $v0 1
+ori $a0 $12 0
+syscall
+
+
+li $13 1
+
+add $14 $11 $13
+
+ori $23 $14 0
+
+ori $15 $23 0
+
+ori $16 $20 0
+
+sub $t0 $15 $16
+blez $t0 lab2
+
+la $a0 String2
+li $v0 4
+syscall
+
+endlab3:
+
+ori $11 $21 0
+
+li $12 1
+
+add $11 $11 $12
+
+ori $21 $11 0
+
+ori $13 $21 0
+
+lw $14 2147479548
+ori $15 $14 0
+
+sub $t0 $13 $15
+bltz $t0 lab0
+
+la $a0 String3
+li $v0 4
+syscall
+
+
+li $22 0
+
+
+li $20 1
+
+
+li $21 2
+
+lab3:
+
+ori $11 $21 0
+
+li $12 1
+
+sub $11 $11 $12
+
+ori $19 $11 0
+
+
+li $23 2
+
+lab4:
+
+ori $11 $21 0
+
+div $11 $23
+mflo $11
+
+mult $11 $23
+mflo $11
+
+ori $12 $11 0
+
+ori $13 $12 0
+
+ori $14 $21 0
+
+bne $13 $14 endlab4
+
+
+li $20 0
+
+endlab4:
+
+ori $11 $23 0
+
+li $12 1
+
+add $11 $11 $12
+
+ori $23 $11 0
+
+ori $13 $23 0
+
+ori $14 $19 0
+
+sub $t0 $13 $14
+blez $t0 lab4
+
+ori $11 $20 0
+
+li $12 1
+
+bne $11 $12 endlab5
+
+la $a0 String4
+li $v0 4
+syscall
+
+ori $11 $21 0
+
+li $v0 1
+ori $a0 $11 0
+syscall
+
+ori $12 $22 0
+
+li $13 1
+
+add $12 $12 $13
+
+ori $22 $12 0
+
+ori $14 $22 0
+
+li $15 10
+
+div $14 $15
+mflo $14
+
+
+mult $14 $15
+mflo $14
+
+ori $16 $14 0
+
+ori $17 $16 0
+
+ori $18 $22 0
+
+bne $17 $18 endlab6
+
+la $a0 String2
+li $v0 4
+syscall
+
+endlab6:
+
+endlab5:
+
+
+li $20 1
+
+ori $11 $21 0
+
+
+add $11 $11 $20
+
+ori $21 $11 0
+
+ori $12 $21 0
+
+lw $13 2147479548
+ori $14 $13 0
+
+sub $t0 $12 $14
+blez $t0 lab3
+
+la $a0 String5
+li $v0 4
+syscall
+
+ori $11 $22 0
+
+li $v0 1
+ori $a0 $11 0
+syscall
+
+lw $ra -64($sp)
+lw $sp -68($sp)
+jr $ra
+
+
+main:
+
+sw $ra -64($sp)
+
+sw $sp -140($sp)
+subi $sp $sp 72
+jal complete_num
+
+lw $ra -64($sp)
+lw $sp -68($sp)
+jr $ra
+
+mainend:
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
