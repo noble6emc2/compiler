@@ -1,0 +1,112 @@
+# depslib dependency file v1.0
+1512542966 source:c:\users\noble6emc2\desktop\compiler\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"symbol0.h"
+	"grammer.h"
+	"genmid.h"
+	"error.h"
+
+1512567519 c:\users\noble6emc2\desktop\compiler\symbol0.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"error.h"
+
+1512372410 c:\users\noble6emc2\desktop\compiler\error.h
+	"symbol0.h"
+
+1512564280 c:\users\noble6emc2\desktop\compiler\grammer.h
+	"symbol0.h"
+	"error.h"
+	"genmid.h"
+
+1512567536 c:\users\noble6emc2\desktop\compiler\genmid.h
+	"grammer.h"
+	<stdlib.h>
+	<stdio.h>
+	<ctype.h>
+
+1512665834 source:d:\course\compiler\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"symbol0.h"
+	"grammer.h"
+	"genmid.h"
+	"error.h"
+
+1512997604 d:\course\compiler\symbol0.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"error.h"
+
+1512372410 d:\course\compiler\error.h
+	"symbol0.h"
+
+1512809806 d:\course\compiler\grammer.h
+	"symbol0.h"
+	"error.h"
+	"genmid.h"
+
+1512997619 d:\course\compiler\genmid.h
+	"grammer.h"
+	<stdlib.h>
+	<stdio.h>
+	<ctype.h>
+
+1514785082 source:c:\users\noble6emc2\desktop\15061052_胡敏达_代码生成程序[可执行]\compiler\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"error.h"
+	"symbol0.h"
+	"genmid.h"
+	"grammer.h"
+
+1514784490 c:\users\noble6emc2\desktop\15061052_胡敏达_代码生成程序[可执行]\compiler\symbol0.h
+
+1514779168 c:\users\noble6emc2\desktop\15061052_胡敏达_代码生成程序[可执行]\compiler\error.h
+
+1515576102 c:\users\noble6emc2\desktop\15061052_胡敏达_代码生成程序[可执行]\compiler\grammer.h
+
+1514995898 c:\users\noble6emc2\desktop\15061052_胡敏达_代码生成程序[可执行]\compiler\genmid.h
+
+1512665834 source:i:\15061052_胡敏达_代码生成程序[可执行]\compiler\main.cpp
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"symbol0.h"
+	"grammer.h"
+	"genmid.h"
+	"error.h"
+
+1512997606 i:\15061052_胡敏达_代码生成程序[可执行]\compiler\symbol0.h
+	<stdio.h>
+	<stdlib.h>
+	<string.h>
+	<ctype.h>
+	"error.h"
+
+1512372410 i:\15061052_胡敏达_代码生成程序[可执行]\compiler\error.h
+	"symbol0.h"
+
+1513566702 i:\15061052_胡敏达_代码生成程序[可执行]\compiler\grammer.h
+	"symbol0.h"
+	"error.h"
+	"genmid.h"
+
+1513565672 i:\15061052_胡敏达_代码生成程序[可执行]\compiler\genmid.h
+	"grammer.h"
+	<stdlib.h>
+	<stdio.h>
+	<ctype.h>
+

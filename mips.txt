@@ -10,7 +10,7 @@
 li $t0 1024
 sw $t0 2147479548
 
-sw $sp -72($sp)
+sw $sp -8($sp)
 subi $sp $sp 4
 jal main
 
@@ -19,65 +19,224 @@ j mainend
 
 complete_num:
 
-sw $ra -64($sp)
+sw $ra 0($sp)
 
+li $t0 2
+sw $t0 -4144($sp)
 
-li $21 2
+lw $t0 -4144($sp)
+sw $t0 -4148($sp)
+
+li $t0 0
+sw $t0 -4152($sp)
+
+lw $t1 -4152($sp)
+lw $t2 -4148($sp)
+add $t0 $t1 $t2
+sw $t0 -4152($sp)
+
+lw $t0 -4152($sp)
+sw $t0 -4108($sp)
 
 lab0:
 
-li $11 1
+li $t0 1
+sw $t0 -4144($sp)
 
-sub $11 $0 $11
+lw $t0 -4144($sp)
+sw $t0 -4148($sp)
 
-ori $20 $11 0
+li $t0 0
+sw $t0 -4152($sp)
 
+lw $t1 -4152($sp)
+lw $t2 -4148($sp)
+sub $t0 $t1 $t2
+sw $t0 -4152($sp)
 
-ori $19 $21 0
+lw $t0 -4152($sp)
+sw $t0 -4112($sp)
 
+lw $t0 -4108($sp)
+sw $t0 -4144($sp)
 
-li $23 1
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4148($sp)
+sw $t0 -4116($sp)
+
+li $t0 1
+sw $t0 -4144($sp)
+
+lw $t0 -4144($sp)
+sw $t0 -4148($sp)
+
+li $t0 0
+sw $t0 -4152($sp)
+
+lw $t1 -4152($sp)
+lw $t2 -4148($sp)
+add $t0 $t1 $t2
+sw $t0 -4152($sp)
+
+lw $t0 -4152($sp)
+sw $t0 -4104($sp)
 
 lab1:
 
-ori $11 $21 0
+lw $t0 -4108($sp)
+sw $t0 -4144($sp)
 
-div $11 $23
-mflo $11
+lw $t1 -4144($sp)
+lw $t2 -4104($sp)
+div $t1 $t2
+mflo $t0
+sw $t0 -4144($sp)
 
-mult $11 $23
-mflo $11
+li $t0 0
+sw $t0 -4148($sp)
 
-ori $12 $11 0
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-ori $13 $12 0
+lw $t0 -4148($sp)
+sw $t0 -4152($sp)
 
-ori $14 $21 0
+lw $t1 -4152($sp)
+lw $t2 -4104($sp)
+mult $t1 $t2
+mflo $t0
+sw $t0 -4152($sp)
 
-bne $13 $14 endlab0
+li $t0 0
+sw $t0 -4156($sp)
 
-ori $11 $20 0
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
 
-li $12 1
+lw $t0 -4156($sp)
+sw $t0 -4120($sp)
 
-add $11 $11 $12
+lw $t0 -4120($sp)
+sw $t0 -4144($sp)
 
-ori $20 $11 0
+li $t0 0
+sw $t0 -4148($sp)
 
-ori $13 $19 0
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-ori $14 $23 0
+lw $t0 -4108($sp)
+sw $t0 -4152($sp)
 
-sub $13 $13 $14
+li $t0 0
+sw $t0 -4156($sp)
 
-ori $19 $13 0
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
 
-ori $15 $20 0
+lw $t0 -4148($sp)
+lw $t1 -4156($sp)
+beq $t0 $t1 lab2
 
-li $16 1024
+j endlab0
 
-sub $t0 $15 $16
-bltz $t0 endlab1
+lab2:
+
+lw $t0 -4112($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+li $t0 1
+sw $t0 -4152($sp)
+
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4148($sp)
+sw $t0 -4112($sp)
+
+lw $t0 -4116($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4104($sp)
+sw $t0 -4152($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4152($sp)
+sub $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4148($sp)
+sw $t0 -4116($sp)
+
+lw $t0 -4112($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+li $t0 1024
+sw $t0 -4152($sp)
+
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
+
+li $t0 0
+sw $t0 -4160($sp)
+
+lw $t1 -4160($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4160($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4160($sp)
+sub $t0 $t0 $t1
+bgez $t0 lab3
+
+j endlab1
+
+lab3:
 
 la $a0 String0
 li $v0 4
@@ -85,95 +244,290 @@ syscall
 
 endlab1:
 
-ori $11 $20 0
+lw $t0 -4112($sp)
+sw $t0 -4144($sp)
 
-li $12 1024
+li $t0 0
+sw $t0 -4148($sp)
 
-sub $t0 $11 $12
-bgez $t0 endlab2
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-ori $11 $20 0
+li $t0 1024
+sw $t0 -4152($sp)
 
-ori $12 $23 0
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
 
-li $t0 -72
-add $t0 $t0 $sp
-ori $t1 $11 0
-sll $t1 $t1 2
+li $t0 0
+sw $t0 -4160($sp)
+
+lw $t1 -4160($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4160($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4160($sp)
 sub $t0 $t0 $t1
-sw $12 0($t0)
+bltz $t0 lab4
+
+j endlab2
+
+lab4:
+
+lw $t0 -4112($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4104($sp)
+sw $t0 -4152($sp)
+
+li $t0 0
+sw $t0 -4156($sp)
+
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
+
+li $t0 -8
+add $t0 $t0 $sp
+lw $t1 -4148($sp)
+add $t1 $t1 $t1
+add $t1 $t1 $t1
+sub $t0 $t0 $t1
+lw $t1 -4156($sp)
+sw $t1 0($t0)
 
 endlab2:
 
 endlab0:
 
-ori $11 $23 0
+lw $t0 -4104($sp)
+sw $t0 -4144($sp)
 
-li $12 1
+li $t0 0
+sw $t0 -4148($sp)
 
-add $11 $11 $12
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-ori $23 $11 0
+li $t0 1
+sw $t0 -4152($sp)
 
-ori $13 $23 0
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
 
-ori $14 $21 0
+lw $t1 -4148($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-sub $t0 $13 $14
+lw $t0 -4148($sp)
+sw $t0 -4104($sp)
+
+lw $t0 -4104($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4108($sp)
+sw $t0 -4152($sp)
+
+li $t0 0
+sw $t0 -4156($sp)
+
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4156($sp)
+sub $t0 $t0 $t1
 bltz $t0 lab1
 
-ori $11 $19 0
+lw $t0 -4116($sp)
+sw $t0 -4144($sp)
 
-li $12 0
+li $t0 0
+sw $t0 -4148($sp)
 
-bne $11 $12 endlab3
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+li $t0 0
+sw $t0 -4152($sp)
+
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
+
+li $t0 0
+sw $t0 -4160($sp)
+
+lw $t1 -4160($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4160($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4160($sp)
+beq $t0 $t1 lab5
+
+j endlab3
+
+lab5:
 
 la $a0 String1
 li $v0 4
 syscall
 
-ori $11 $21 0
+lw $t0 -4108($sp)
+sw $t0 -4144($sp)
 
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+li $a0 268443648
 li $v0 1
-ori $a0 $11 0
+lw $a0 -4148($sp)
 syscall
 
+li $t0 0
+sw $t0 -4144($sp)
 
-li $23 0
+lw $t0 -4144($sp)
+sw $t0 -4148($sp)
 
-lab2:
+li $t0 0
+sw $t0 -4152($sp)
+
+lw $t1 -4152($sp)
+lw $t2 -4148($sp)
+add $t0 $t1 $t2
+sw $t0 -4152($sp)
+
+lw $t0 -4152($sp)
+sw $t0 -4104($sp)
+
+lab6:
 
 la $a0 String2
 li $v0 4
 syscall
 
-ori $11 $23 0
+lw $t0 -4104($sp)
+sw $t0 -4144($sp)
 
-li $t0 -72
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+li $t0 -8
 add $t0 $t0 $sp
-ori $t1 $11 0
-sll $t1 $t1 2
+lw $t1 -4148($sp)
+add $t1 $t1 $t1
+add $t1 $t1 $t1
 sub $t0 $t0 $t1
 lw $t1 0($t0)
-ori $12 $t1 0
+sw $t1 -4152($sp)
 
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
+
+li $t0 0
+sw $t0 -4160($sp)
+
+lw $t1 -4160($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4160($sp)
+
+li $a0 268443648
 li $v0 1
-ori $a0 $12 0
+lw $a0 -4160($sp)
 syscall
 
+lw $t0 -4104($sp)
+sw $t0 -4144($sp)
 
-li $13 1
+li $t0 0
+sw $t0 -4148($sp)
 
-add $14 $11 $13
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-ori $23 $14 0
+li $t0 1
+sw $t0 -4152($sp)
 
-ori $15 $23 0
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
 
-ori $16 $20 0
+lw $t1 -4148($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-sub $t0 $15 $16
-blez $t0 lab2
+lw $t0 -4148($sp)
+sw $t0 -4104($sp)
+
+lw $t0 -4104($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4112($sp)
+sw $t0 -4152($sp)
+
+li $t0 0
+sw $t0 -4156($sp)
+
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4156($sp)
+sub $t0 $t0 $t1
+blez $t0 lab6
 
 la $a0 String2
 li $v0 4
@@ -181,128 +535,447 @@ syscall
 
 endlab3:
 
-ori $11 $21 0
+lw $t0 -4108($sp)
+sw $t0 -4144($sp)
 
-li $12 1
+li $t0 0
+sw $t0 -4148($sp)
 
-add $11 $11 $12
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-ori $21 $11 0
+li $t0 1
+sw $t0 -4152($sp)
 
-ori $13 $21 0
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
 
-lw $14 2147479548
-ori $15 $14 0
+lw $t1 -4148($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-sub $t0 $13 $15
+lw $t0 -4148($sp)
+sw $t0 -4108($sp)
+
+lw $t0 -4108($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 2147479548
+sw $t0 -4152($sp)
+
+li $t0 0
+sw $t0 -4156($sp)
+
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4156($sp)
+sub $t0 $t0 $t1
 bltz $t0 lab0
 
 la $a0 String3
 li $v0 4
 syscall
 
+li $t0 0
+sw $t0 -4144($sp)
 
-li $22 0
+lw $t0 -4144($sp)
+sw $t0 -4148($sp)
 
+li $t0 0
+sw $t0 -4152($sp)
 
-li $20 1
+lw $t1 -4152($sp)
+lw $t2 -4148($sp)
+add $t0 $t1 $t2
+sw $t0 -4152($sp)
 
+lw $t0 -4152($sp)
+sw $t0 -4132($sp)
 
-li $21 2
+li $t0 1
+sw $t0 -4144($sp)
 
-lab3:
+lw $t0 -4144($sp)
+sw $t0 -4148($sp)
 
-ori $11 $21 0
+li $t0 0
+sw $t0 -4152($sp)
 
-li $12 1
+lw $t1 -4152($sp)
+lw $t2 -4148($sp)
+add $t0 $t1 $t2
+sw $t0 -4152($sp)
 
-sub $11 $11 $12
+lw $t0 -4152($sp)
+sw $t0 -4136($sp)
 
-ori $19 $11 0
+li $t0 2
+sw $t0 -4144($sp)
 
+lw $t0 -4144($sp)
+sw $t0 -4148($sp)
 
-li $23 2
+li $t0 0
+sw $t0 -4152($sp)
 
-lab4:
+lw $t1 -4152($sp)
+lw $t2 -4148($sp)
+add $t0 $t1 $t2
+sw $t0 -4152($sp)
 
-ori $11 $21 0
+lw $t0 -4152($sp)
+sw $t0 -4124($sp)
 
-div $11 $23
-mflo $11
+lab7:
 
-mult $11 $23
-mflo $11
+lw $t0 -4124($sp)
+sw $t0 -4144($sp)
 
-ori $12 $11 0
+li $t0 0
+sw $t0 -4148($sp)
 
-ori $13 $12 0
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-ori $14 $21 0
+li $t0 1
+sw $t0 -4152($sp)
 
-bne $13 $14 endlab4
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
 
+lw $t1 -4148($sp)
+lw $t2 -4156($sp)
+sub $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-li $20 0
+lw $t0 -4148($sp)
+sw $t0 -4128($sp)
+
+li $t0 2
+sw $t0 -4144($sp)
+
+lw $t0 -4144($sp)
+sw $t0 -4148($sp)
+
+li $t0 0
+sw $t0 -4152($sp)
+
+lw $t1 -4152($sp)
+lw $t2 -4148($sp)
+add $t0 $t1 $t2
+sw $t0 -4152($sp)
+
+lw $t0 -4152($sp)
+sw $t0 -4104($sp)
+
+lab8:
+
+lw $t0 -4124($sp)
+sw $t0 -4144($sp)
+
+lw $t1 -4144($sp)
+lw $t2 -4104($sp)
+div $t1 $t2
+mflo $t0
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4148($sp)
+sw $t0 -4152($sp)
+
+lw $t1 -4152($sp)
+lw $t2 -4104($sp)
+mult $t1 $t2
+mflo $t0
+sw $t0 -4152($sp)
+
+li $t0 0
+sw $t0 -4156($sp)
+
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
+
+lw $t0 -4156($sp)
+sw $t0 -4140($sp)
+
+lw $t0 -4140($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4124($sp)
+sw $t0 -4152($sp)
+
+li $t0 0
+sw $t0 -4156($sp)
+
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4156($sp)
+beq $t0 $t1 lab9
+
+j endlab4
+
+lab9:
+
+li $t0 0
+sw $t0 -4144($sp)
+
+lw $t0 -4144($sp)
+sw $t0 -4148($sp)
+
+li $t0 0
+sw $t0 -4152($sp)
+
+lw $t1 -4152($sp)
+lw $t2 -4148($sp)
+add $t0 $t1 $t2
+sw $t0 -4152($sp)
+
+lw $t0 -4152($sp)
+sw $t0 -4136($sp)
 
 endlab4:
 
-ori $11 $23 0
+lw $t0 -4104($sp)
+sw $t0 -4144($sp)
 
-li $12 1
+li $t0 0
+sw $t0 -4148($sp)
 
-add $11 $11 $12
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-ori $23 $11 0
+li $t0 1
+sw $t0 -4152($sp)
 
-ori $13 $23 0
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
 
-ori $14 $19 0
+lw $t1 -4148($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-sub $t0 $13 $14
-blez $t0 lab4
+lw $t0 -4148($sp)
+sw $t0 -4104($sp)
 
-ori $11 $20 0
+lw $t0 -4104($sp)
+sw $t0 -4144($sp)
 
-li $12 1
+li $t0 0
+sw $t0 -4148($sp)
 
-bne $11 $12 endlab5
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4128($sp)
+sw $t0 -4152($sp)
+
+li $t0 0
+sw $t0 -4156($sp)
+
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4156($sp)
+sub $t0 $t0 $t1
+blez $t0 lab8
+
+lw $t0 -4136($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+li $t0 1
+sw $t0 -4152($sp)
+
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
+
+li $t0 0
+sw $t0 -4160($sp)
+
+lw $t1 -4160($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4160($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4160($sp)
+beq $t0 $t1 lab10
+
+j endlab5
+
+lab10:
 
 la $a0 String4
 li $v0 4
 syscall
 
-ori $11 $21 0
+lw $t0 -4124($sp)
+sw $t0 -4144($sp)
 
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+li $a0 268443648
 li $v0 1
-ori $a0 $11 0
+lw $a0 -4148($sp)
 syscall
 
-ori $12 $22 0
+lw $t0 -4132($sp)
+sw $t0 -4144($sp)
 
-li $13 1
+li $t0 0
+sw $t0 -4148($sp)
 
-add $12 $12 $13
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-ori $22 $12 0
+li $t0 1
+sw $t0 -4152($sp)
 
-ori $14 $22 0
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
 
-li $15 10
+lw $t1 -4148($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-div $14 $15
-mflo $14
+lw $t0 -4148($sp)
+sw $t0 -4132($sp)
 
+lw $t0 -4132($sp)
+sw $t0 -4144($sp)
 
-mult $14 $15
-mflo $14
+li $t0 10
+sw $t0 -4148($sp)
 
-ori $16 $14 0
+lw $t1 -4144($sp)
+lw $t2 -4148($sp)
+div $t1 $t2
+mflo $t0
+sw $t0 -4144($sp)
 
-ori $17 $16 0
+li $t0 0
+sw $t0 -4152($sp)
 
-ori $18 $22 0
+lw $t1 -4152($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4152($sp)
 
-bne $17 $18 endlab6
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
+
+li $t0 10
+sw $t0 -4160($sp)
+
+lw $t1 -4156($sp)
+lw $t2 -4160($sp)
+mult $t1 $t2
+mflo $t0
+sw $t0 -4156($sp)
+
+li $t0 0
+sw $t0 -4164($sp)
+
+lw $t1 -4164($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4164($sp)
+
+lw $t0 -4164($sp)
+sw $t0 -4140($sp)
+
+lw $t0 -4140($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4132($sp)
+sw $t0 -4152($sp)
+
+li $t0 0
+sw $t0 -4156($sp)
+
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4156($sp)
+beq $t0 $t1 lab11
+
+j endlab6
+
+lab11:
 
 la $a0 String2
 li $v0 4
@@ -312,206 +985,113 @@ endlab6:
 
 endlab5:
 
+li $t0 1
+sw $t0 -4144($sp)
 
-li $20 1
+lw $t0 -4144($sp)
+sw $t0 -4148($sp)
 
-ori $11 $21 0
+li $t0 0
+sw $t0 -4152($sp)
 
+lw $t1 -4152($sp)
+lw $t2 -4148($sp)
+add $t0 $t1 $t2
+sw $t0 -4152($sp)
 
-add $11 $11 $20
+lw $t0 -4152($sp)
+sw $t0 -4136($sp)
 
-ori $21 $11 0
+lw $t0 -4124($sp)
+sw $t0 -4144($sp)
 
-ori $12 $21 0
+li $t0 0
+sw $t0 -4148($sp)
 
-lw $13 2147479548
-ori $14 $13 0
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
 
-sub $t0 $12 $14
-blez $t0 lab3
+li $t0 1
+sw $t0 -4152($sp)
+
+lw $t0 -4152($sp)
+sw $t0 -4156($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4156($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 -4148($sp)
+sw $t0 -4124($sp)
+
+lw $t0 -4124($sp)
+sw $t0 -4144($sp)
+
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+lw $t0 2147479548
+sw $t0 -4152($sp)
+
+li $t0 0
+sw $t0 -4156($sp)
+
+lw $t1 -4156($sp)
+lw $t2 -4152($sp)
+add $t0 $t1 $t2
+sw $t0 -4156($sp)
+
+lw $t0 -4148($sp)
+lw $t1 -4156($sp)
+sub $t0 $t0 $t1
+blez $t0 lab7
 
 la $a0 String5
 li $v0 4
 syscall
 
-ori $11 $22 0
+lw $t0 -4132($sp)
+sw $t0 -4144($sp)
 
+li $t0 0
+sw $t0 -4148($sp)
+
+lw $t1 -4148($sp)
+lw $t2 -4144($sp)
+add $t0 $t1 $t2
+sw $t0 -4148($sp)
+
+li $a0 268443648
 li $v0 1
-ori $a0 $11 0
+lw $a0 -4148($sp)
 syscall
 
-lw $ra -64($sp)
-lw $sp -68($sp)
+lw $ra 0($sp)
+lw $sp -4($sp)
 jr $ra
+
 
 
 main:
 
-sw $ra -64($sp)
+sw $ra 0($sp)
 
-sw $sp -140($sp)
-subi $sp $sp 72
+sw $sp -12($sp)
+subi $sp $sp 8
 jal complete_num
 
-lw $ra -64($sp)
-lw $sp -68($sp)
+lw $ra 0($sp)
+lw $sp -4($sp)
 jr $ra
 
+
 mainend:
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

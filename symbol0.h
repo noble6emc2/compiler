@@ -266,7 +266,6 @@ int getsym(){
         if(temp!='\''){
             error(3,w_count,temp);//缺单引号
             printf("charcon error\n");//容错
-            retract();
             symbol=CHARCON;
         }
         else symbol=CHARCON;
@@ -337,10 +336,6 @@ int getsym(){
         skiptar[++skiptop]='<';skiptar[++skiptop]='=';
         skiptar[++skiptop]='!';
         error(2,w_count,temp);
-        printf("skip completed\n");
-        retract();
-        getsym();
-        return 0;
     }//无法识别的字符
     print_w();
     w_count++;

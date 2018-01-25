@@ -11,8 +11,6 @@
 #include "error.h"
 #include "symbol0.h"
 #include "genmid.h"
-#include "optim.h"
-#include "mips.h"
 #include "grammer.h"
 int main(){
     char path[200];
@@ -32,9 +30,7 @@ int main(){
         return 0;
     }
     printtable();
-    anaprogram();
-    outputmid();
-    //outputmips();
+    outputmips();
     if(!iserror) printf("compile completed ....\n");
     return 0;
 }

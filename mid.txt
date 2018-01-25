@@ -4,147 +4,300 @@ jmp mainend
 swtpoi 1
 lab complete_num
 swra
-SKIP &temp&&0 2 1
-= j 2 1
+= temp&&0 2 1
+= temp&&1 temp&&0 0
+= temp&&2 0 1
++ temp&&2 temp&&2 temp&&1
+= j temp&&2 0
 lab lab0
-= &temp&&1 1 1
-minus &temp&&1
-= n &temp&&1 0
-SKIP &temp&&2 j 0
-= s j 0
-SKIP &temp&&3 1 1
-= i 1 1
+= temp&&0 1 1
+= temp&&1 temp&&0 0
+= temp&&2 0 1
+- temp&&2 temp&&2 temp&&1
+= n temp&&2 0
+= temp&&0 j 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= s temp&&1 0
+= temp&&0 1 1
+= temp&&1 temp&&0 0
+= temp&&2 0 1
++ temp&&2 temp&&2 temp&&1
+= i temp&&2 0
 lab lab1
-= &temp&&4 j 0
-/ &temp&&4 &temp&&4 i
-* &temp&&4 &temp&&4 i
-= x1 &temp&&4 0
-= &temp&&5 x1 0
-= &temp&&6 j 0
-bne endlab0 &temp&&5 &temp&&6
-= &temp&&7 n 0
-= &temp&&8 1 1
-+ &temp&&7 &temp&&7 &temp&&8
-= n &temp&&7 0
-= &temp&&9 s 0
-= &temp&&10 i 0
-- &temp&&9 &temp&&9 &temp&&10
-= s &temp&&9 0
-= &temp&&11 n 0
-= &temp&&12 1024 1
-bls endlab1 &temp&&11 &temp&&12
+= temp&&0 j 0
+/ temp&&0 temp&&0 i
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 temp&&1 0
+* temp&&2 temp&&2 i
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+= x1 temp&&3 0
+= temp&&0 x1 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 j 0
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+beq lab2 temp&&1 temp&&3
+jmp endlab0
+lab lab2
+= temp&&0 n 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1 1
+= temp&&3 temp&&2 0
++ temp&&1 temp&&1 temp&&3
+= n temp&&1 0
+= temp&&0 s 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 i 0
+- temp&&1 temp&&1 temp&&2
+= s temp&&1 0
+= temp&&0 n 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1024 1
+= temp&&3 temp&&2 0
+= temp&&4 0 1
++ temp&&4 temp&&4 temp&&3
+bge lab3 temp&&1 temp&&4
+jmp endlab1
+lab lab3
 prt OVERFLOW!  1
 lab endlab1
-= &temp&&13 n 0
-= &temp&&14 1024 1
-bge endlab2 &temp&&13 &temp&&14
-= &temp&&15 n 0
-= &temp&&16 i 0
-[]= k &temp&&15 &temp&&16
+= temp&&0 n 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1024 1
+= temp&&3 temp&&2 0
+= temp&&4 0 1
++ temp&&4 temp&&4 temp&&3
+bls lab4 temp&&1 temp&&4
+jmp endlab2
+lab lab4
+= temp&&0 n 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 i 0
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+[]= k temp&&1 temp&&3
 lab endlab2
 lab endlab0
-= &temp&&17 i 0
-= &temp&&18 1 1
-+ &temp&&17 &temp&&17 &temp&&18
-= i &temp&&17 0
-= &temp&&19 i 0
-= &temp&&20 j 0
-bls lab1 &temp&&19 &temp&&20
-= &temp&&21 s 0
-= &temp&&22 0 1
-bne endlab3 &temp&&21 &temp&&22
+= temp&&0 i 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1 1
+= temp&&3 temp&&2 0
++ temp&&1 temp&&1 temp&&3
+= i temp&&1 0
+= temp&&0 i 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 j 0
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+bls lab1 temp&&1 temp&&3
+= temp&&0 s 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 0 1
+= temp&&3 temp&&2 0
+= temp&&4 0 1
++ temp&&4 temp&&4 temp&&3
+beq lab5 temp&&1 temp&&4
+jmp endlab3
+lab lab5
 prt complete number:  1
-= &temp&&23 j 0
-prt &temp&&23 0 2
-SKIP &temp&&24 0 1
-= i 0 1
-lab lab2
+= temp&&0 j 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+prt temp&&1 0 2
+= temp&&0 0 1
+= temp&&1 temp&&0 0
+= temp&&2 0 1
++ temp&&2 temp&&2 temp&&1
+= i temp&&2 0
+lab lab6
 prt    1
-= &temp&&25 i 0
-=[] &temp&&26 k &temp&&25
-prt &temp&&26 0 2
-SKIP &temp&&27 i 0
-= &temp&&28 1 1
-+ &temp&&27 &temp&&25 &temp&&28
-= i &temp&&27 0
-= &temp&&29 i 0
-= &temp&&30 n 0
-ble lab2 &temp&&29 &temp&&30
+= temp&&0 i 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+=[] temp&&2 k temp&&1
+= temp&&3 temp&&2 0
+= temp&&4 0 1
++ temp&&4 temp&&4 temp&&3
+prt temp&&4 0 2
+= temp&&0 i 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1 1
+= temp&&3 temp&&2 0
++ temp&&1 temp&&1 temp&&3
+= i temp&&1 0
+= temp&&0 i 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 n 0
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+ble lab6 temp&&1 temp&&3
 prt    1
 lab endlab3
-= &temp&&31 j 0
-= &temp&&32 1 1
-+ &temp&&31 &temp&&31 &temp&&32
-= j &temp&&31 0
-= &temp&&33 j 0
-= &temp&&34 max_num 0
-bls lab0 &temp&&33 &temp&&34
+= temp&&0 j 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1 1
+= temp&&3 temp&&2 0
++ temp&&1 temp&&1 temp&&3
+= j temp&&1 0
+= temp&&0 j 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 max_num 0
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+bls lab0 temp&&1 temp&&3
 prt ---------------------------------------------------------------\n 1
-SKIP &temp&&35 0 1
-= h 0 1
-SKIP &temp&&36 1 1
-= leap 1 1
-SKIP &temp&&37 2 1
-= m 2 1
-lab lab3
-= &temp&&38 m 0
-= &temp&&39 1 1
-- &temp&&38 &temp&&38 &temp&&39
-= k2 &temp&&38 0
-SKIP &temp&&40 2 1
-= i 2 1
-lab lab4
-= &temp&&41 m 0
-/ &temp&&41 &temp&&41 i
-* &temp&&41 &temp&&41 i
-= x2 &temp&&41 0
-= &temp&&42 x2 0
-= &temp&&43 m 0
-bne endlab4 &temp&&42 &temp&&43
-SKIP &temp&&44 0 1
-= leap 0 1
+= temp&&0 0 1
+= temp&&1 temp&&0 0
+= temp&&2 0 1
++ temp&&2 temp&&2 temp&&1
+= h temp&&2 0
+= temp&&0 1 1
+= temp&&1 temp&&0 0
+= temp&&2 0 1
++ temp&&2 temp&&2 temp&&1
+= leap temp&&2 0
+= temp&&0 2 1
+= temp&&1 temp&&0 0
+= temp&&2 0 1
++ temp&&2 temp&&2 temp&&1
+= m temp&&2 0
+lab lab7
+= temp&&0 m 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1 1
+= temp&&3 temp&&2 0
+- temp&&1 temp&&1 temp&&3
+= k2 temp&&1 0
+= temp&&0 2 1
+= temp&&1 temp&&0 0
+= temp&&2 0 1
++ temp&&2 temp&&2 temp&&1
+= i temp&&2 0
+lab lab8
+= temp&&0 m 0
+/ temp&&0 temp&&0 i
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 temp&&1 0
+* temp&&2 temp&&2 i
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+= x2 temp&&3 0
+= temp&&0 x2 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 m 0
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+beq lab9 temp&&1 temp&&3
+jmp endlab4
+lab lab9
+= temp&&0 0 1
+= temp&&1 temp&&0 0
+= temp&&2 0 1
++ temp&&2 temp&&2 temp&&1
+= leap temp&&2 0
 lab endlab4
-= &temp&&45 i 0
-= &temp&&46 1 1
-+ &temp&&45 &temp&&45 &temp&&46
-= i &temp&&45 0
-= &temp&&47 i 0
-= &temp&&48 k2 0
-ble lab4 &temp&&47 &temp&&48
-= &temp&&49 leap 0
-= &temp&&50 1 1
-bne endlab5 &temp&&49 &temp&&50
+= temp&&0 i 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1 1
+= temp&&3 temp&&2 0
++ temp&&1 temp&&1 temp&&3
+= i temp&&1 0
+= temp&&0 i 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 k2 0
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+ble lab8 temp&&1 temp&&3
+= temp&&0 leap 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1 1
+= temp&&3 temp&&2 0
+= temp&&4 0 1
++ temp&&4 temp&&4 temp&&3
+beq lab10 temp&&1 temp&&4
+jmp endlab5
+lab lab10
 prt   1
-= &temp&&51 m 0
-prt &temp&&51 0 2
-= &temp&&52 h 0
-= &temp&&53 1 1
-+ &temp&&52 &temp&&52 &temp&&53
-= h &temp&&52 0
-= &temp&&54 h 0
-= &temp&&55 10 1
-/ &temp&&54 &temp&&54 &temp&&55
-SKIP &temp&&56 10 1
-* &temp&&54 &temp&&54 &temp&&55
-= x2 &temp&&54 0
-= &temp&&57 x2 0
-= &temp&&58 h 0
-bne endlab6 &temp&&57 &temp&&58
+= temp&&0 m 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+prt temp&&1 0 2
+= temp&&0 h 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1 1
+= temp&&3 temp&&2 0
++ temp&&1 temp&&1 temp&&3
+= h temp&&1 0
+= temp&&0 h 0
+= temp&&1 10 1
+/ temp&&0 temp&&0 temp&&1
+= temp&&2 0 1
++ temp&&2 temp&&2 temp&&0
+= temp&&3 temp&&2 0
+= temp&&4 10 1
+* temp&&3 temp&&3 temp&&4
+= temp&&5 0 1
++ temp&&5 temp&&5 temp&&3
+= x2 temp&&5 0
+= temp&&0 x2 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 h 0
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+beq lab11 temp&&1 temp&&3
+jmp endlab6
+lab lab11
 prt    1
 lab endlab6
 lab endlab5
-SKIP &temp&&59 1 1
-= leap 1 1
-= &temp&&60 m 0
-SKIP &temp&&61 1 1
-+ &temp&&60 &temp&&60 leap
-= m &temp&&60 0
-= &temp&&62 m 0
-= &temp&&63 max_num 0
-ble lab3 &temp&&62 &temp&&63
+= temp&&0 1 1
+= temp&&1 temp&&0 0
+= temp&&2 0 1
++ temp&&2 temp&&2 temp&&1
+= leap temp&&2 0
+= temp&&0 m 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 1 1
+= temp&&3 temp&&2 0
++ temp&&1 temp&&1 temp&&3
+= m temp&&1 0
+= temp&&0 m 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+= temp&&2 max_num 0
+= temp&&3 0 1
++ temp&&3 temp&&3 temp&&2
+ble lab7 temp&&1 temp&&3
 prt The total is  1
-= &temp&&64 h 0
-prt &temp&&64 0 2
+= temp&&0 h 0
+= temp&&1 0 1
++ temp&&1 temp&&1 temp&&0
+prt temp&&1 0 2
 ret
 swtpoi 0
 swtpoi 2

@@ -1,264 +1,320 @@
-const int _maxn = 100;
-const int z = 6;
+const int a = +5;
+const char m = '3';
+const int z = 6,b = 10;
+CONST char q = 's',p = 't';   
 
-const int char_ascii_s = 35, char_ascii_e = 126;
-const char first_alpha = 'a', last_alpha = 'z';
-const char underscore = '_';
+int ss[1];     
+char str_test[50]; 
+int number[30],ans[30];         
+int ra,rb,rc,rd;
 
-int n, fib_memoize[101], res;
-int choice;
-int round;
-char ch;
+void defi(int value){            
+    const char D1 = 'd',E1 = 'e',F1 = 'f',G1 = '+',H1 = '-';
+    const char I1 = '8';
 
-void print_fib_res(int n, int val){
- if(val != -1){
-  printf("The ", n);
-  printf("th fib_num is ");
-  printf(val);
- }
+    int a,b,c,d[10],e[4],f;
+    int m[7],n[8],p,q,h[9];
+    char i,o[4],r[5],s,t,u[65],v___;
+    
+    a = value;
+    d[5] = value;
+    a = D1;
+    v___ = G1;
+    
+    printf("variable and const defination passed!");    
 }
 
-int fib(int n){
- if(1 > n){
-  printf("num is too small");
-  return (-1);
- }
- if(n < 3) return (1);
- if(n >= 101){
-  printf("num is too large");
-  return (-1);
- }
- if(fib_memoize[n] == 0){
-  fib_memoize[n] = fib(n - 1) + fib(n - 2);
- }
- 
- return (fib_memoize[n]);
+void defi_test(){
+    defi(66);
 }
 
-void init_fib_memoize(){
- int i;
- 
- i = 0;
- do
- {
-  fib_memoize[i] = 0;
-  i = i + 1;
- }
- while(i <= 101)
- fib_memoize[1] = 1;
- fib_memoize[2] = 1;
+
+int max(int a,int b){
+    if(a > b)
+        return (a);
+    if(b > a)
+        return (b);
+    return (((a) - (-b)) / 2);
 }
 
-char get_char(int i){
- char ch_array[4], ch;
- 
- ch = 'a';
- ch_array[0] = ch;
- ch_array[1] = 'A';
- ch_array[2] = 'z';
- ch_array[3] = 'Z';
- return (ch_array[i]);
+void fun_def_test(){
+    int c;
+    c = max(max(max(5,+5),5),5);    
+    printf("c is ",c);
 }
 
-void test_expression(int n){
- const int _maxn = 1;
- int a;
- 
- if(fib_memoize[n] == 0) return ;
- printf(" | ");
- printf(fib_memoize[('b' - 'a') * 2 - 1] + fib_memoize[_maxn + 1] - fib_memoize[3] + fib_memoize[9] / ((get_char(2) - get_char(0) - fib_memoize[8]) / 2) - 17);
- printf(" | ");
- 
- a = +_maxn;
- printf(a);
- printf(" | ");
- a = -('a' - 'b')*('a' - 'c');
- printf(a);
- printf(" | ");
-}
-
-void test_string(){
- printf(" | ");
- printf(" !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
- printf(" | ");
-}
-
-void test_const_definition(){
- printf(" | ");
- printf("The first_alpha is ", first_alpha);
- printf(" The last_alpha is ", last_alpha);
- printf(" supported char ascii : 32_33 ", char_ascii_s);
- printf(underscore);
- printf(char_ascii_e);
- printf(" | ");
-}
-
-void test_scanf(){
- char ch;
- char space;
- int mark;
- 
- scanf(mark, space, ch);
- printf("mark : ", mark);
- switch(ch){
-  case '*' : {printf(" is asterisk | "); return;}
- }
- printf(" not asterisk | ");
-}
-
-int test_embedding(int a1, int a2, int a3, int a4, int a5, int a6, int a7, char a8, int j, char a9, int a10, int a11){
- int array[11], sum, tmp;
- 
- do{
-  if(j >= 11) j = j - (j / 11) * 11;
-  switch(j){
-   case 1 : {
-    a2 = a2 * 2;
-    array[j] = a2;
-   }
-   case 0 : {
-    tmp = (a1 * 1) + ((a2 * 2) + ((a3 * 3) * (a4 * 7) - a5 * 14 / 2  + a6 + 3 * a7 * test_embedding(a2, a3, a4, a5, a6, a7, a1, a9, j + 2, a8, a11, a11)) * (a8 - 5)) * 2;
-    printf(" | tmp : ", tmp);
-    array[j] = a1;
+int calcu(int size){
+    int i;
+    int sum;
+    i = 0;
     sum = 0;
+    
     do{
-     if(j == 10){
-      sum = array[j] + sum;
-     }
-     if(j < 10) sum = array[j + 1] + sum + array[j];
-     j = j + 2;
-    }while(j < 11)
-    printf(" | sum : ", sum);
-    printf(" | ");
-    return ((a9 + a8) * (a3 + a4));
-   }
-   case 2 : {
-    a3 = a3 * 3;
-    array[j] = a3;
-   }
-   case 3 : {
-    a4 = a4 * 4;
-    array[j] = a4;
-   }
-   case 5 : {
-    a6 = a6 * 6;
-    array[j] = a6;
-   }
-   case 6 : {
-    a7 = a7 * 7;
-    array[j] = a7;
-   }
-   case 4 : {
-    a5 = a5 * 5;
-    array[j] = a5;
-   }
-   case 8 : {
-    if(a10 == a11){
-     return ((a1 + a2) * (a3 + a4));
-    }
-    array[j] = a9 * 9;
-   }
-   case 7 : {;
-    array[j] = a8 * 8;
-   }
-   case 9 : {
-    a10 = a10 * 10;
-    array[j] = a10;
-   }
-   case 10 : {
-    a11 = a11 * 11;
-    array[j] = a11;
-   }
-  }
-  j = j + 3;
- }while(1)
+        sum  = sum + number[i];
+        i = i + 1;
+    }while(i < size)
+    return (sum);
 }
 
-void test_dag(){
- int a[10];
- int b[10];
- int c[10];
- int i;
- int j;
- int k;
- i = 0;
- j = 2;
- do
- {
-  a[i] = 0;
-  b[i] = 0;
-  c[i] = 0;
-  i = i + 1;
- }while(i < 10)
- if(i > j){
-  i = 2;
-  j = 3;
- }
- a[i] = 10;
- b[i] = 10;
- c[i] = 10;
- a[j] = 11;
- c[j] = 11;
- b[j] = 11;
- k = i + 1;
- a[k] = 10;
- b[k] = 10;
- c[k] = 10;
- if(i < j){
-  i = 3;
- }
- a[j] = 11;
- k = a[0];
- k = k + a[1];
- k = k + a[2];
- k = k + a[3];
- k = k + a[4];
- k = k + a[5];
- a[i] = 10;
- j = a[0] + b[0];
- j = a[1] + b[1];
- j = a[2] + b[2];
- j = a[3] + b[3];
- j = a[4] + b[4];
- printf(" | ", k);
- printf(" | ");
- printf(j);
- printf(" | ", c[2]);
- printf(" | ", c[3]);
+
+int calcuCov(int size,int aver){
+    int i;
+    int cov;
+    int temp;
+    i = 0;
+    cov = 0;
+    
+    do{
+        temp = ((number[i] - aver) * (number[i] - aver));
+        cov = cov + temp;
+        i = i + 1;
+    }while(i < size)
+    return (cov);
+}
+
+int partion(int sta,int end){
+    int x,temp;
+    int i,j;
+    x = number[end];
+    i = sta - 1;
+    j = sta;
+    do{
+        if(number[j] <= x){
+            i = i + 1;
+            temp = number[i];
+            number[i] = number[j];
+            number[j] = temp;
+        }
+        j = j + 1;
+    }while(j < end)
+    
+    temp = number[i + 1];
+    number[i + 1] = number[end];
+    number[end] = temp;
+    return (i+1);
+}
+
+void quick_sort(int sta,int end){
+    int q;
+    if(sta < end){
+        q = partion(sta,end);
+        quick_sort(sta,q - 1);
+        quick_sort(q + 1, end);
+    }
+}
+
+void reverse(int len){
+    char temp;
+    int i;
+    i = +0; 
+    do{
+        temp = str_test[i];
+        str_test[i] = str_test[(len - i)]; 
+        str_test[len - i] = temp; 
+        i = i + +1;   
+    }while(i < (len / 2))
+}
+
+int charCount(){
+    int sum,i;
+    sum = 0;
+    i = 0;
+    
+    do{
+        switch(str_test[i]){
+        case 'S':{
+            do{
+                if(str_test[i] == 'a')
+                    sum = sum + 1;
+                i = i + 1;
+            }while(i <= 10);
+        }
+        case 'E':
+            return (sum);
+        }
+
+        i = i + 1;
+    }while(1)    
+}
+
+void other_test1(){
+    char score;    
+    printf(" !#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\]^_`abcdefghijklmnopqrstuvwxyz{|}~");
+    
+    printf("please input the mode before test(1~3)"); 
+    scanf(score);
+    switch(score){
+    case '1':{
+        printf("Easy");
+        number[0] = 5;
+        number[1] = 7;
+        number[2] = 9;
+        number[3] = 4;
+        number[4] = 1;
+        number[5] = 3;
+        number[6] = 8;
+        number[7] = 10;
+        number[8] = 2;
+        number[9] = 6;
+        ans[0] = 1;
+        ans[1] = 2;
+        ans[2] = 3;
+        ans[3] = 4;
+        ans[4] = 5;
+        ans[5] = 6;
+        ans[6] = 7;
+        ans[7] = 8;
+        ans[8] = 9;
+        ans[9] = 10;
+    }
+    case '2':{
+        printf("Middle");
+        ra = ra + 5;
+        number[0] = 45;
+        number[1] = 19;
+        number[2] = 23;
+        number[3] = 78;
+        number[4] = 83;
+        number[5] = 55;
+        number[6] = 69;
+        number[7] = 37;
+        number[8] = 95;
+        number[9] = 77;
+        number[10] = 145;
+        number[11] = 189;
+        number[12] = 156;
+        number[13] = 123;
+        number[14] = 100;
+        ans[0] = 19;
+        ans[1] = 23;
+        ans[2] = 37;
+        ans[3] = 45;
+        ans[4] = 55;
+        ans[5] = 69;
+        ans[6] = 77;
+        ans[7] = 78;
+        ans[8] = 83;
+        ans[9] = 95;
+        ans[10] = 100;
+        ans[11] = 123;
+        ans[12] = 145;
+        ans[13] = 156;
+        ans[14] = 189;
+    }
+    case '3':{
+        printf("Hard");
+        ra = ra + 10;
+        number[0] = 120;
+        number[1] = 854;
+        number[2] = 165;
+        number[3] = 785;
+        number[4] = 666;
+        number[5] = 475;
+        number[6] = 324;
+        number[7] = 218;
+        number[8] = 165;
+        number[9] = 994;    
+        number[10] = 1230;
+        number[11] = 1542;
+        number[12] = 1462;
+        number[13] = 1864;
+        number[14] = 1023;
+        number[15] = 1000;
+        number[16] = 1765;
+        number[17] = 1952;
+        number[18] = 1949;
+        number[19] = 1764;
+        ans[0] = 120;
+        ans[1] = 165;
+        ans[2] = 165;
+        ans[3] = 218;
+        ans[4] = 324;
+        ans[5] = 475;
+        ans[6] = 666;
+        ans[7] = 785;
+        ans[8] = 854;
+        ans[9] = 994;
+        ans[10] = 1000;
+        ans[11] = 1023;
+        ans[12] = 1230;
+        ans[13] = 1462;
+        ans[14] = 1542;
+        ans[15] = 1764;
+        ans[16] = 1765;
+        ans[17] = 1864;
+        ans[18] = 1949;
+        ans[19] = 1952;
+    }
+    }
+
+}
+
+void other_test2(){
+    int i;
+    int temp;
+    
+    str_test[0] = 'S';
+    str_test[1] = 'a';
+    str_test[2] = 'a';
+    str_test[3] = 'a';
+    str_test[4] = 'a';
+    str_test[5] = 'a';
+    str_test[6] = 'b';
+    str_test[7] = 'b';
+    str_test[8] = 'a';
+    str_test[9] = 'b';
+    str_test[10] = 'b';
+    str_test[11] = 'E';
+    str_test[12] = 'E';
+
+    reverse(12);
+    
+    printf("The character a in str_test is encountered ",charCount());
+    
+    ra = 10;
+    rb = 10;
+    rc = 10;
+    rd = 10;
+    ss[0] = a + (-a);   
+    ra = (((ra + rb * rc + rd) / ((((rb * rc)) + (ra + rd)) + (88))) + (max(ra,rb))) - str_test[ss[0]] + 'H' + -70;
+    
+    do{
+        ra = +ra + -10;
+    }while(ra >= 20)
+
+    if(ra < 20){
+        ra = ++10 + 0;  
+    }
 }
 
 void main(){
- int a,lab0;
- ch = 'm';
- init_fib_memoize();
- round = 9;
- printf(" | ");
- printf("1 : fib   2 : test_expression  -3 : test_const_definition");
- printf(" | ");
- lab0=0;
- do{
-  scanf(choice);
-  switch(choice){
-   case 1 : {
-    printf(" | ");
-    printf("input n ");
-    scanf(n);
-    print_fib_res(n, fib(n));
-    printf(" | ");
-   }
-   case +2 : {
-    test_expression(9);
-   }
-   case -3 : test_const_definition();
-  }
-  round = round - 1;
- }while(round)
- {}{{}};;
- test_string();
- test_scanf();
- test_scanf();
- printf(" | test_embedding : ", test_embedding(1, 2, 3, 4, 5, 6, 7, 'e', 3, 'a', 10, 11));
- test_dag();
- printf(" | The char should be 'm':");
- printf(ch);
-}
+    int i;
+    int sum,cov,aver;
+    
+    other_test2();
+    other_test1();
+    
+    
+    sum = calcu(ra);    
+    aver = sum / ra;
+    cov = calcuCov(ra,aver);
+    cov = cov / ra;
+    printf("The sum of input numbers is ",sum);
+    printf("The cov of input number is ",cov);
+
+    quick_sort(0,ra-1);  
+
+    i = 0;
+    do{
+        if(number[i] != ans[i]){
+        printf("quick sort failed!");
+            return;
+        }
+        i = i + 1;
+    }while(i < ra)
+    
+    printf("quick sort success!");
+    fun_def_test();
+    defi_test();
+    return;
+} 

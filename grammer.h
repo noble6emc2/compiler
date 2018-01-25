@@ -42,9 +42,8 @@ bool constant(int *res,bool *ischar){
 bool varlist(int paranum, int fundir);
 bool expression(int lev, char *name);
 //26.＜因子＞ ::= ＜标识符＞｜＜标识符＞‘[’＜表达式＞‘]’｜＜整数＞|＜字符＞｜＜有返回值函数调用语句＞|‘(’＜表达式＞‘)’
-bool factor(int lev,char *name,bool *istemp){
+bool factor(int lev,char *name){
     //printf("enter factor\n");
-    *istemp=0;
     bool ischar;
     int res;
     if(symbol==PLUSSY||symbol==MINUSSY||symbol==INTCON){
@@ -52,7 +51,7 @@ bool factor(int lev,char *name,bool *istemp){
             bool exit1=error(28,w_count,temp);//constreaderr
             if(exit1) return 0;
         }
-
+        //
         if(!entertemp(name,INT)){
             bool exit1=error(28,w_count,temp);//constreaderr
             if(exit1) return 0;
@@ -65,10 +64,9 @@ bool factor(int lev,char *name,bool *istemp){
         char num[30];
         sprintf(num,"%d",res);
         emit3("=",maintab.ele[maintab.loc][loc].name,num,"1");//左边为常数则为1;
-        *istemp=1;
     }
     else if(symbol==CHARCON){
-        //ischar=1;
+        ischar=1;
         res=num;
         getsym();//next symbol;
         //
@@ -84,7 +82,6 @@ bool factor(int lev,char *name,bool *istemp){
         char num[30];
         sprintf(num,"%d",res);
         emit3("=",maintab.ele[maintab.loc][loc].name,num,"1");//左边为常数则为1;
-        *istemp=1;
     }
     else if(symbol==IDSY){
         int idloc=findtable(token);
@@ -132,7 +129,6 @@ bool factor(int lev,char *name,bool *istemp){
             char num[30];
             sprintf(num,"%d",res);
             emit3("=[]",maintab.ele[maintab.loc][loc].name,maintab.ele[idloc1][idloc].name,temp_n);//左边为常数则为1;
-            *istemp=1;
         }//array;
         else if(symbol==LPARSY){
             if(kind!=FUNC||value==0){
@@ -171,7 +167,6 @@ bool factor(int lev,char *name,bool *istemp){
             sprintf(num,"%d",res);
             emit1("call",maintab.ele[idloc1][idloc].name);//左边为常数则为1;
             emit1("v=",name);
-            *istemp=1;
         }//call function;
         else if(kind==FUNC||kind==INTARR||kind==CHRARR){
             bool exit1;
@@ -191,7 +186,6 @@ bool factor(int lev,char *name,bool *istemp){
             bool exit1=error(16,w_count,temp);//lack rpar
             if(exit1) return 0;
         }
-        *istemp=1;
     }//(expression)
     //getsym();
     printf("factor is read\n");
@@ -200,47 +194,35 @@ bool factor(int lev,char *name,bool *istemp){
 //25.＜项＞ ::= ＜因子＞{＜乘法运算符＞＜因子＞}
 bool item(int lev, char *name){
     //printf("enter item\n");
-    bool istemp=0;
     char id[200];
-    if(!factor(lev,id,&istemp)){
+    if(!factor(lev,id)){
         bool exit1=error(21,w_count,temp);//expression bool exit1=error
         if(exit1) return 0;
     }
     //
-    int faloc,faloc1,kind;
-    faloc=findtable(id);
-    faloc1=maintab.loc;
-    kind=maintab.ele[faloc1][faloc].kind;
+    int faloc=findtable(id);
+    int faloc1=maintab.loc;
+    int kind=maintab.ele[faloc1][faloc].kind;
     if(kind==CONSTCHR) kind=CHAR;
     if(kind==CONSTINT) kind=INT;
-        /*if(!entertemp(name,kind)){
+    if(!entertemp(name,kind)){
         bool exit1=error(21,w_count,temp);//expression bool exit1=error
         if(exit1) return 0;
     }
-    emit3("=",name,id,"0");//t=0;*/
-    if(!istemp){
-        if(!entertemp(name,kind)){
-            bool exit1=error(21,w_count,temp);//expression bool exit1=error
-            if(exit1) return 0;
-        }
-        emit3("=",name,id,"0");
-    }
-    else strcpy(name,id);
+    emit3("=",name,id,"0");//t=0;
     char temp_n[200];
     //
     while(symbol==DIVISY||symbol==STARSY){
         int oper=symbol;
         getsym();
-        if(!factor(lev,temp_n,&istemp)){
+        if(!factor(lev,temp_n)){
             bool exit1=error(21,w_count,temp);//expression bool exit1=error
             if(exit1) return 0;
         }
         //
         faloc=findtable(temp_n);
         faloc1=maintab.loc;
-
-        if(maintab.ele[faloc1][faloc].kind!=CONSTCHR&&
-           kind!=maintab.ele[faloc1][faloc].kind&&kind==CHAR){
+        if(maintab.ele[faloc1][faloc].kind!=CONSTCHR&&kind!=maintab.ele[faloc1][faloc].kind&&kind==CHAR){
             int loc=findtable(name);
             int loc1=maintab.loc;
             maintab.ele[loc1][loc].kind=INT;
@@ -274,14 +256,13 @@ bool expression(int lev, char *name){
     int faloc=findtable(temp_n);
     int faloc1=maintab.loc;
     int kind=maintab.ele[faloc1][faloc].kind;
-    /*if(!entertemp(name,kind)){
+    if(!entertemp(name,kind)){
         bool exit1=error(21,w_count,temp);//expression bool exit1=error
         if(exit1) return 0;
     }
-    emit3("=",name,"0","1");//t=0;*/
-    strcpy(name,temp_n);
-    if(oper==MINUSSY) emit1("minus",name);
-    //else emit3("+",name,name,temp_n);
+    emit3("=",name,"0","1");//t=0;
+    if(oper==MINUSSY) emit3("-",name,name,temp_n);
+    else emit3("+",name,name,temp_n);
     //
     while(symbol==PLUSSY||symbol==MINUSSY){
         oper=symbol;
@@ -945,7 +926,7 @@ bool printstatement();
 bool scanfstatement();
 bool retstatement();
 bool sentence(int lev){
-    //temp_num=0;//中间变量清0;
+    temp_num=0;//中间变量清0;
     if(symbol==IFSY){
         //printf("enter if state\n");
         if(!ifstatement(lev)) {
@@ -1322,33 +1303,6 @@ bool condition(char *lab){
     printf("condition is read\n");
     return 1;
 }
-bool ifcondition(char *lab){
-    char a[200];
-    char b[200];
-    if(!expression(0,a)){
-        bool exit1=error(21,w_count,temp);
-        if(exit1) return 0;
-    }
-    if(symbol>=EQLSY&&symbol<=LEQSY){
-        int oper=symbol;
-        getsym();
-        if(!expression(0,b)){
-            bool exit1=error(21,w_count,temp);
-            if(exit1) return 0;
-        }
-        switch(oper){
-            case EQLSY: emit3("bne",lab,a,b);break;
-            case NEQSY: emit3("beq",lab,a,b);break;
-            case GTRSY: emit3("ble",lab,a,b);break;
-            case GEQSY: emit3("bls",lab,a,b);break;
-            case LSSSY: emit3("bge",lab,a,b);break;
-            case LEQSY: emit3("bgr",lab,a,b);break;
-        }
-    }//逻辑运算符
-    else emit2("bez",lab,a);
-    printf("condition is read\n");
-    return 1;
-}
 bool whilstatement(int lev){
     if(symbol!=DOSY){
         sytop=-1;
@@ -1380,7 +1334,7 @@ bool whilstatement(int lev){
     return 1;
 }
 bool ifstatement(int lev){//function level;
-    //char lab[200];
+    char lab[200];
     char end[200];
     if(symbol!=IFSY){
         sytop=-1;
@@ -1389,7 +1343,7 @@ bool ifstatement(int lev){//function level;
         bool exit1=error(2,w_count,temp);
         if(exit1) return 0;
     }
-    //sprintf(lab,"lab%d",lab_num++);
+    sprintf(lab,"lab%d",lab_num++);
     sprintf(end,"endlab%d",endlab_num++);
     getsym();
     if(symbol!=LPARSY){
@@ -1397,12 +1351,12 @@ bool ifstatement(int lev){//function level;
         if(exit1) return 0;
     }
     getsym();
-    if(!ifcondition(end)||symbol!=RPARSY){
+    if(!condition(lab)||symbol!=RPARSY){
         bool exit1=error(-1,w_count,temp);
         if(exit1) return 0;
     }
-    //emit1("jmp",end);
-    //emit1("lab",lab);
+    emit1("jmp",end);
+    emit1("lab",lab);
     getsym();
     //printf("out of condition\n");
     if(!sentence(lev)){

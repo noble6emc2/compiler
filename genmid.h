@@ -149,7 +149,7 @@ bool entertable(char name[],int kind,int size, int ret,int paranum){
 }
 int temp_num=0;//记录临时变量编号;
 bool entertemp(char *name, int type){
-    sprintf(name,"&temp&&%d",temp_num++);
+    sprintf(name,"temp&&%d",temp_num++);
     //printf("temp_num%d\n",temp_num);
     int loc=findtable(name);
     int loc1=maintab.loc;
@@ -175,16 +175,6 @@ bool midtomips2(char *name,char *a,char *b);
 bool midtomips1(char *name,char *a);
 bool midtomips0(char *name);
 void printstr();
-void outputmid(){
-    for(int a=0;a<=midtop;a++){
-        //printf("midcode: %s %s %s %s\n",mcode[a].name,mcode[a].a,mcode[a].b,mcode[a].c);
-        if(mcode[a].num==0)   fprintf(midout,"%s\n",mcode[a].name);
-        else if(mcode[a].num==1)  fprintf(midout,"%s %s\n",mcode[a].name,mcode[a].a);
-        else if(mcode[a].num==2)   fprintf(midout,"%s %s %s\n",mcode[a].name,mcode[a].a,mcode[a].b);
-        else if(mcode[a].num==3)   fprintf(midout,"%s %s %s %s\n",mcode[a].name,mcode[a].a,mcode[a].b,mcode[a].c);
-        fprintf(mipsout,"\n");
-    }
-}
 void outputmips(){
     printstr();
     //fprintf(mipsout,"li $sp %d\n",STACKLIM);//update sp
@@ -209,7 +199,7 @@ void emit3(char name[], char a[], char b[],char c[]){
     strcpy(mcode[midtop].c,c);
     mcode[midtop].num=3;
     //if(!strcmp(name,"=")) printf("instruction@@@@@@@@@: %s=%s\n",a,b);
-    //fprintf(midout,"%s %s %s %s\n",name,a,b,c);
+    fprintf(midout,"%s %s %s %s\n",name,a,b,c);
     printf("%s %s %s %s\n",name,a,b,c);
     /*if(!midtomips3(name,a,b,c)){
            bool exit1=error(-1,w_count,temp);
@@ -226,7 +216,7 @@ void emit2(char name[], char a[], char b[]){
     strcpy(mcode[midtop].a,a);
     strcpy(mcode[midtop].b,b);
     mcode[midtop].num=2;
-    //fprintf(midout,"%s %s %s\n",name,a,b);
+    fprintf(midout,"%s %s %s\n",name,a,b);
     printf("%s %s %s\n",name,a,b);
     /*if(!midtomips2(name,a,b)){
         bool exit1=error(-1,w_count,temp);
@@ -247,7 +237,7 @@ void emit1(char name[], char a[]){
     //if(!strcmp(name,"scf")) printf("instruction@@@@@@@@@: scf %s\n",name);
     //if(!strcmp(name,"lab")) printf("instruction@@@@@@@@@: %s:\n",name);
     //if(!strcmp(name,"jmp")) printf("instruction@@@@@@@@@: ret %s\n",name);
-    //fprintf(midout,"%s %s\n",name,a);
+    fprintf(midout,"%s %s\n",name,a);
     printf("%s %s\n",name,a);
     /*if(!midtomips1(name,a)){
         bool exit1=error(-1,w_count,temp);
@@ -263,11 +253,642 @@ void emit0(char name[]){
     }
     strcpy(mcode[midtop].name,name);
     mcode[midtop].num=0;
-    //fprintf(midout,"%s\n",name);
+    fprintf(midout,"%s\n",name);
     printf("%s\n",name);
     /*if(!midtomips0(name)){
         bool exit1=error(-1,w_count,temp);
     }
     fprintf(mipsout,"\n");*/
+}
+int pushtop=0;
+//int baseaddr[100];
+//int blevel=-1;
+bool midtomips3(char *name, char *a, char *b, char *c){
+    if(!strcmp(name,"=")&&!strcmp(c,"1")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        int num=atoi(b);
+        fprintf(mipsout,"li $t0 %d\n",num);
+        //fprintf(mipsout,"sw $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"sw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"sw $t0 -%d($sp)\n",addr+8);//local;
+    }
+    else if(!strcmp(name,"=")&&!strcmp(c,"0")){
+        int loc=findtable(b);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            printf("name: %s pointer: %d\n",a,maintab.pointer);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t0 %d\n",addr);
+        //fprintf(mipsout,"lw $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t0 -%d($sp)\n",addr+8);//local;
+        loc=findtable(a);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            printf("name: %s pointer: %d\n",b,maintab.pointer);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"sw $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"sw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"sw $t0 -%d($sp)\n",addr+8);//local;
+    }
+    else if(!strcmp(name,"=[]")){
+        int loc=findtable(b);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+
+        //fprintf(mipsout,"li $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"li $t0 %d\n",STACKLIM-addr);//global;
+        else {
+                fprintf(mipsout,"li $t0 -%d\n",addr+8);
+                fprintf(mipsout,"add $t0 $t0 $sp\n");
+        }//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+
+        fprintf(mipsout,"add $t1 $t1 $t1\n");
+        fprintf(mipsout,"add $t1 $t1 $t1\n");//4*t1;
+        fprintf(mipsout,"sub $t0 $t0 $t1\n");//array addr
+        fprintf(mipsout,"lw $t1 0($t0)\n");//res;
+        loc=findtable(a);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"sw $t1 %d\n",addr);//res;
+        if(loc1==0) fprintf(mipsout,"sw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"sw $t1 -%d($sp)\n",addr+8);//local;
+    }
+    else if(!strcmp(name,"[]=")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+
+        //fprintf(mipsout,"li $t0 %d\n",addr);
+        if(loc1==0){
+                fprintf(mipsout,"li $t0 %d\n",STACKLIM-addr);//global;
+        }
+        else{
+                fprintf(mipsout,"li $t0 -%d\n",addr+8);
+                fprintf(mipsout,"add $t0 $t0 $sp\n");
+        }//local;
+        loc=findtable(b);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+
+        fprintf(mipsout,"add $t1 $t1 $t1\n");
+        fprintf(mipsout,"add $t1 $t1 $t1\n");//4*t1;
+        fprintf(mipsout,"sub $t0 $t0 $t1\n");//array addr
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"sw $t1 %d\n",addr);//res;
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"sw $t1 0($t0)\n");//res;
+    }
+    else if(!strcmp(name,"/")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        int taraddr,tarloc;
+        taraddr=addr;//memo
+        tarloc=loc1;//
+        loc=findtable(b);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t2 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t2 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t2 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"div $t1 $t2\n");
+        fprintf(mipsout,"mflo $t0\n");
+        if(tarloc==0) fprintf(mipsout,"sw $t0 %d\n",STACKLIM-taraddr);//global;
+        else fprintf(mipsout,"sw $t0 -%d($sp)\n",taraddr+8);//local;
+    }
+    else if(!strcmp(name,"*")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        int taraddr,tarloc;
+        taraddr=addr;//memo
+        tarloc=loc1;//
+        loc=findtable(b);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t2 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t2 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t2 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"mult $t1 $t2\n");
+        fprintf(mipsout,"mflo $t0\n");
+        if(tarloc==0) fprintf(mipsout,"sw $t0 %d\n",STACKLIM-taraddr);//global;
+        else fprintf(mipsout,"sw $t0 -%d($sp)\n",taraddr+8);//local;
+    }
+    else if(!strcmp(name,"-")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        int taraddr,tarloc;
+        taraddr=addr;//memo
+        tarloc=loc1;//
+        loc=findtable(b);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t2 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t2 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t2 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"sub $t0 $t1 $t2\n");
+        if(tarloc==0) fprintf(mipsout,"sw $t0 %d\n",STACKLIM-taraddr);//global;
+        else fprintf(mipsout,"sw $t0 -%d($sp)\n",taraddr+8);//local;
+    }
+    else if(!strcmp(name,"+")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        int taraddr,tarloc;
+        taraddr=addr;//memo
+        tarloc=loc1;//
+        loc=findtable(b);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t2 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t2 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t2 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"add $t0 $t1 $t2\n");
+        if(tarloc==0) fprintf(mipsout,"sw $t0 %d\n",STACKLIM-taraddr);//global;
+        else fprintf(mipsout,"sw $t0 -%d($sp)\n",taraddr+8);//local;
+    }
+    else if(!strcmp(name,"bne")){
+        int loc=findtable(b);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t0 -%d($sp)\n",addr+8);//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"bne $t0 $t1 %s\n",a);
+    }
+    else if(!strcmp(name,"beq")){
+        int loc=findtable(b);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t0 -%d($sp)\n",addr+8);//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"beq $t0 $t1 %s\n",a);
+    }
+    else if(!strcmp(name,"bgr")){
+        int loc=findtable(b);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t0 -%d($sp)\n",addr+8);//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"sub $t0 $t0 $t1\n");
+        fprintf(mipsout,"bgtz $t0 %s\n",a);
+    }
+    else if(!strcmp(name,"bge")){
+        int loc=findtable(b);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t0 -%d($sp)\n",addr+8);//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"sub $t0 $t0 $t1\n");
+        fprintf(mipsout,"bgez $t0 %s\n",a);
+    }
+    else if(!strcmp(name,"bls")){
+        int loc=findtable(b);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t0 -%d($sp)\n",addr+8);//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"sub $t0 $t0 $t1\n");
+        fprintf(mipsout,"bltz $t0 %s\n",a);
+    }
+    else if(!strcmp(name,"ble")){
+        int loc=findtable(b);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t0 -%d($sp)\n",addr+8);//local;
+        loc=findtable(c);
+        loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t1 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t1 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t1 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"sub $t0 $t0 $t1\n");
+        fprintf(mipsout,"blez $t0 %s\n",a);
+    }
+    else if(!strcmp(name,"prt")&&!strcmp(b,"0")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        int kind=atoi(c);
+        if(!(kind==INT||kind==CHAR||kind==CONSTCHR||kind==CONSTINT)){
+            printf("type int/char error ");
+            bool exit1=error(-1,w_count,temp);
+            if(exit1) return 0;
+        }
+        //printf("prtkind %s %d %d %d\n",a,kind,loc1,loc);
+        fprintf(mipsout,"li $a0 %d\n",STRINGLIM);
+        if(kind==INT||kind==CONSTINT) fprintf(mipsout,"li $v0 %d\n",1);
+        else fprintf(mipsout,"li $v0 %d\n",11);
+        //fprintf(mipsout,"lw $a0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $a0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $a0 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"syscall\n");
+    }
+    return 1;
+}
+bool midtomips2(char *name, char *a, char *b){
+    if(!strcmp(name,"bnez")){
+        int loc=findtable(b);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        //fprintf(mipsout,"lw $t0 %d\n",addr);
+        if(loc1==0) fprintf(mipsout,"lw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t0 -%d($sp)\n",addr+8);//local;
+        fprintf(mipsout,"bne $t0 $0 %s\n",a);
+    }
+    else if(!strcmp(name,"prt")&&!strcmp(b,"1")){
+        int pos=0;
+        while(pos<=strcontop){
+            if(!strcmp(stringcon[pos],a)) break;
+            else pos++;
+        }
+        if(pos>strcontop){
+            printf("print error");
+            bool exit1=error(-1,w_count,temp);
+            if(exit1) return 0;
+        }
+        fprintf(mipsout,"la $a0 String%d\n",pos);
+        fprintf(mipsout,"li $v0 %d\n",4);
+        fprintf(mipsout,"syscall\n");
+    }
+    return 1;
+}
+bool midtomips1(char *name, char *a){
+    if(!strcmp(name,"call")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        int paranum=maintab.ele[loc1][loc].paranum;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        if(maintab.ele[loc1][loc].kind!=FUNC){
+            bool exit1=error(9,w_count,temp);
+            if(exit1) return 0;
+            //return 1;
+        }
+        if(maintab.pointer==0){
+            printf("maintab.memnum:%d\n",maintab.memnum);
+            fprintf(mipsout,"sw $sp -%d($sp)\n",maintab.memnum+4);// return stack num;
+            fprintf(mipsout,"subi $sp $sp %d\n",maintab.memnum);
+        }
+        else{
+            if(maintab.funsize[maintab.pointer]==-1)
+                maintab.funsize[maintab.pointer]=0;
+            fprintf(mipsout,"sw $sp -%d($sp)\n",12+maintab.funsize[maintab.pointer]);
+            fprintf(mipsout,"subi $sp $sp %d\n",8+maintab.funsize[maintab.pointer]);
+        }
+        //printf("pushtop-paranum:%d\n",pushtop-paranum);
+        for(int a=paranum-1;a>=0;a--){
+            fprintf(mipsout,"subi $gp $gp 4\n");
+            fprintf(mipsout,"lw $a0 0($gp)\n");
+            fprintf(mipsout,"sw $a0 -%d($sp)\n",4*a+8);//reserv 1 byte;
+        }
+        /*for(int a=pushtop-paranum;a<pushtop;a++){
+            fprintf(mipsout,"lw $a0 %d\n",4*a+ARGLIM);
+            fprintf(mipsout,"sw $a0 -%d($sp)\n",4*(a-pushtop+paranum)+8);//reserv 1 byte;
+        }*/
+        //reserv the return address and data;
+        //pushtop-=paranum;
+        fprintf(mipsout,"jal %s\n",a);//ra=namelab;
+    }
+    else if(!strcmp(name,"ret")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;//global;
+        if(loc1==0) fprintf(mipsout,"lw $v0 %d\n",STACKLIM-addr);
+        else fprintf(mipsout,"lw $v0 -%d($sp)\n",addr+8);
+        fprintf(mipsout,"lw $ra 0($sp)\n");//ra=namelab;
+        fprintf(mipsout,"lw $sp -4($sp)\n");//ra=namelab;
+        fprintf(mipsout,"jr $ra\n");
+    }
+    else if(!strcmp(name,"lab")){
+        fprintf(mipsout,"%s:\n",a);
+    }
+    else if(!strcmp(name,"jmp")){
+        fprintf(mipsout,"j %s\n",a);
+    }
+    else if(!strcmp(name,"push")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        if(loc1==0) fprintf(mipsout,"lw $t0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"lw $t0 -%d($sp)\n",addr+8);//local;
+        //fprintf(mipsout,"sw $t0 %d\n",ARGLIM+4*pushtop);
+        fprintf(mipsout,"sw $t0 0($gp)\n");
+        fprintf(mipsout,"addi $gp $gp 4\n");
+        //pushtop+=1;
+    }
+    else if(!strcmp(name,"scf")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        int kind=maintab.ele[loc1][loc].kind;
+        if(kind==INT){
+            fprintf(mipsout,"li $v0 5\n");
+            fprintf(mipsout,"syscall\n");
+            if(loc1==0) fprintf(mipsout,"sw $v0 %d\n",STACKLIM-addr);//global;
+            else fprintf(mipsout,"sw $v0 -%d($sp)\n",addr+8);//local;
+        }
+        else if(kind==CHAR){
+            fprintf(mipsout,"li $v0 12\n");
+            fprintf(mipsout,"syscall\n");
+            //fprintf(mipsout,"sw $t0 %d\n",addr);
+            if(loc1==0) fprintf(mipsout,"sw $v0 %d\n",STACKLIM-addr);//global;
+            else fprintf(mipsout,"sw $v0 -%d($sp)\n",addr+8);//local;
+        }
+        else{
+            bool exit1=error(9,w_count,temp);
+            if(exit1) return 0;
+            //return 1;
+        }
+    }
+    else if(!strcmp(name,"v=")){
+        int loc=findtable(a);
+        int loc1=maintab.loc;
+        if(loc==-1){
+            bool exit1=error(5,w_count,temp);
+            if(exit1) return 0;
+        }
+        int addr=maintab.ele[loc1][loc].addr;
+        if(loc1==0) fprintf(mipsout,"sw $v0 %d\n",STACKLIM-addr);//global;
+        else fprintf(mipsout,"sw $v0 -%d($sp)\n",addr+8);//local;
+    }
+    else if(!strcmp(name,"swtpoi")){
+        int num=atoi(a);
+        maintab.pointer=num;//switch maintab.pointer!!!
+    }
+    return 1;
+}
+
+void printstr(){
+    fprintf(mipsout,".data\n");
+    for(int a=0;a<=strcontop;a++){
+        fprintf(mipsout,"\tString%d: .asciiz \"",a);
+        for(int b=0;b<strlen(stringcon[a]);b++)
+            if(stringcon[a][b]!='\\') fprintf(mipsout,"%c",stringcon[a][b]);
+            else fprintf(mipsout,"\\\\");
+        fprintf(mipsout,"\" \n");
+    }
+    fprintf(mipsout,".text\n");
+    fprintf(mipsout,".globl main\n");
+}
+
+bool midtomips0(char *name){
+    if(!strcmp(name,"swra")){
+        fprintf(mipsout,"sw $ra 0($sp)\n");
+    }
+    else if(!strcmp(name,"ret0")){
+        fprintf(mipsout,"li $v0 0\n");
+        fprintf(mipsout,"lw $ra 0($sp)\n");//ra=namelab;
+        fprintf(mipsout,"lw $sp -4($sp)\n");//stack retreat;
+        fprintf(mipsout,"jr $ra\n");
+        //blevel--;
+        /*if(blevel<0){
+            bool exit1=error(4,w_count,temp);
+            if(exit1) return 0;
+        }*/
+        //sp=baseaddr[blevel]-4;
+        //maintab.pointer=basepointer[blevel];
+    }
+    else if(!strcmp(name,"ret")){
+        fprintf(mipsout,"lw $ra 0($sp)\n");//ra=namelab;
+        fprintf(mipsout,"lw $sp -4($sp)\n");//stack retreat;
+        fprintf(mipsout,"jr $ra\n");
+        /*blevel--;
+        if(blevel<0){
+            bool exit1=error(4,w_count,temp);
+            if(exit1) return 0;
+        }*/
+        //sp=baseaddr[blevel]-4;
+        //maintab.pointer=basepointer[blevel];
+    }
+    return 1;
 }
 #endif //COMPILER_GENMID_H
